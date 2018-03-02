@@ -1,0 +1,3 @@
+[submodule "l-smash"]
+	path = l-smash
+	url = https://github.com/l-smash/l-smash.git

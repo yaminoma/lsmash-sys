@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: rust:1.24.1
+    environment:
+      - DEBIAN_FRONTEND: noninteractive
+    steps:
+      - run: echo $PATH
+      - run: apt update -qq && apt install software-properties-common -y --no-install-recommends
+      - run: apt update -qq && apt install ca-certificates curl pkg-config clang git openssh-client -y --no-install-recommends
+      - checkout
+      - run: |
+          git submodule sync
+          git submodule update --init
+      - run: cargo build --verbose
+#     - run: cargo test --verbose
