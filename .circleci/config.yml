@@ -6,17 +6,13 @@ jobs:
     environment:
       - CFLAGS: -O3 -g
       - DEBIAN_FRONTEND: noninteractive
-      - C_INCLUDE_PATH: /opt/include
-      - PKG_CONFIG_PATH: /opt/lib/pkgconfig:/opt/share/pkgconfig
     steps:
-      - run: echo 'test -f $HOME/.cargo/env && source $HOME/.cargo/env' >> $BASH_ENV
       - run: apt update -qq
       - run: apt install software-properties-common ca-certificates curl pkg-config clang git openssh-client -y --no-install-recommends
       - checkout
       - run:
             name: Install L-SMASH
             command: |
-              test -f /opt/include/lsmash/lsmash.h && exit 0
               mkdir -p target/src/lsmash
               cd target/src/lsmash
               curl -Lf https://github.com/l-smash/l-smash/archive/v2.14.5.tar.gz | tar zxf - --strip-components 1
