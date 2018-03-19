@@ -4,14 +4,22 @@ jobs:
     docker:
       - image: rust:1.24.1
     environment:
+      - CFLAGS: -O3 -g
       - DEBIAN_FRONTEND: noninteractive
+      - C_INCLUDE_PATH: /opt/include
+      - PKG_CONFIG_PATH: /opt/lib/pkgconfig:/opt/share/pkgconfig
     steps:
-      - run: echo $PATH
-      - run: apt update -qq && apt install software-properties-common -y --no-install-recommends
-      - run: apt update -qq && apt install ca-certificates curl pkg-config clang git openssh-client -y --no-install-recommends
+      - run: echo 'test -f $HOME/.cargo/env && source $HOME/.cargo/env' >> $BASH_ENV
+      - run: apt update -qq
+      - run: apt install software-properties-common ca-certificates curl pkg-config clang git openssh-client -y --no-install-recommends
       - checkout
-      - run: |
-          git submodule sync
-          git submodule update --init
-      - run: cargo build --verbose
-#     - run: cargo test --verbose
+      - run:
+            name: Install L-SMASH
+            command: |
+              test -f /opt/include/lsmash/lsmash.h && exit 0
+              mkdir -p target/src/lsmash
+              cd target/src/lsmash
+              curl -Lf https://github.com/l-smash/l-smash/archive/v2.14.5.tar.gz | tar zxf - --strip-components 1
+              make
+              make install
+#     - run: cargo build --verbose

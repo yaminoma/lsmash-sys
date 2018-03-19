@@ -7,5 +7,3 @@ build = "build.rs"
 
 [build-dependencies]
 bindgen = ">=0.23.1"
-
-[dependencies]
