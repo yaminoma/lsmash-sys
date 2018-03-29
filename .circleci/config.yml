@@ -10,6 +10,9 @@ jobs:
       - run: apt update -qq
       - run: apt install software-properties-common ca-certificates curl pkg-config clang git openssh-client -y --no-install-recommends
       - checkout
+      - run: |
+          git submodule sync
+          git submodule update --init
       - run:
             name: Install L-SMASH
             command: |
