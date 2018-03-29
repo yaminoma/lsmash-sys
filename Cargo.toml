@@ -1,6 +1,6 @@
 [package]
 name = "lsmash-sys"
-version = "1.1.0"
+version = "1.2.0"
 authors = ["Shumpei Urabe <urabe@hack.ne.jp>"]
 build = "build.rs"
 
